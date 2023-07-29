@@ -1,9 +1,9 @@
 import React from 'react';
-import "./Main.css";
+import "./Chat.css";
 
-export const Main = () => {
+export const Chat = () => {
     return (
-        <section style={{ backgroundColor: '#9066F2', height : "100vh"}} >
+        <section style={{ backgroundColor: '#9066F2', height: "100vh" }} >
             <div className="container py-5">
 
                 <div className="row">
@@ -15,7 +15,7 @@ export const Main = () => {
                                 <div className="row">
                                     <div className="col-md-6 col-lg-5 col-xl-4 mb-4 mb-md-0">
 
-                                        <div className="p-3" style={{overflowX : "auto"}}>
+                                        <div className="p-3" style={{ overflowX: "auto" }}>
 
                                             <div className="input-group rounded mb-3">
                                                 <input type="search" className="form-control rounded" placeholder="Search" aria-label="Search"
@@ -153,7 +153,7 @@ export const Main = () => {
                                     <div className="col-md-6 col-lg-7 col-xl-8">
 
                                         <div className="pt-3 pe-3" data-mdb-perfect-scrollbar="true"
-                                            style={{ position: 'relative', height: '400px', overflowX : "auto" }}>
+                                            style={{ position: 'relative', height: '400px', overflowX: "auto" }}>
 
                                             <div className="d-flex flex-row justify-content-start">
                                                 <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp"
@@ -178,13 +178,13 @@ export const Main = () => {
                                                 </div>
                                                 <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
                                                     alt="avatar 1" style={{ width: '45px', height: '100%' }}
-                                                    />
+                                                />
                                             </div>
 
                                             <div className="d-flex flex-row justify-content-start">
                                                 <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp"
                                                     alt="avatar 1" style={{ width: '45px', height: '100%' }}
-                                                    />
+                                                />
                                                 <div>
                                                     <p className="small p-2 ms-3 mb-1 rounded-3" style={{ backgroundColor: '#f5f6f7' }}>Duis aute
                                                         irure
@@ -203,13 +203,13 @@ export const Main = () => {
                                                 </div>
                                                 <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
                                                     alt="avatar 1" style={{ width: '45px', height: '100%' }}
-                                                    />
+                                                />
                                             </div>
 
                                             <div className="d-flex flex-row justify-content-start">
                                                 <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp"
                                                     alt="avatar 1" style={{ width: '45px', height: '100%' }}
-                                                    />
+                                                />
                                                 <div>
                                                     <p className="small p-2 ms-3 mb-1 rounded-3" style={{ backgroundColor: '#f5f6f7' }}>Sed ut
                                                         perspiciatis
@@ -259,15 +259,15 @@ export const Main = () => {
                                                 </div>
                                                 <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
                                                     alt="avatar 1" style={{ width: '45px', height: '100%' }}
-                                                    />
+                                                />
                                             </div>
 
                                         </div>
 
                                         <div className="text-muted d-flex justify-content-start align-items-center pe-3 pt-3 mt-2">
                                             <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp"
-                                                alt="avatar 3"style={{ width: '40px', height: '100%' }}
-/>
+                                                alt="avatar 3" style={{ width: '40px', height: '100%' }}
+                                            />
                                             <input type="text" className="form-control form-control-lg" id="exampleFormControlInput2"
                                                 placeholder="Type message" />
                                             <a className="ms-1 text-muted" href="#!"><i className="fas fa-paperclip"></i></a>

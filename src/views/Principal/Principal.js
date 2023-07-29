@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import { decodeToken } from '../../custom/decodeToken';
-import { Menu } from './components/Menu';
+import { Menu } from './components/Menu/Menu';
 
 export const Principal = () => {
     /*const getChatsByUser = async () => {
@@ -69,10 +69,10 @@ export const Principal = () => {
     return (
         <div>
             <div className="d-flex">
-                <div className="d-flex flex-column justify-content-between" style={{ backgroundColor: '#222', height : "100vh", width : "6vw"}}>
+                <div className="d-flex flex-column justify-content-between" style={{ backgroundColor: '#222', height : "100vh", width : "6vw", position : "fixed"}}>
                     <Menu />
                 </div>
-                <div style={{ height : "100vh",  padding : 0, width : "95vw"}}>
+                <div style={{ height : "100vh",  padding : 0, width : "95vw", marginLeft : "6vw"}}>
                     <Outlet />
                 </div>
             </div>
