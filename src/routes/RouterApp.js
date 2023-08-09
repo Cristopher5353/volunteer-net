@@ -19,9 +19,9 @@ const RouterApp = () => {
         <Route element={<ProtectedRoute roles={["Voluntario", "GrupoVoluntario"]} />}>
           <Route path="/principal" element={<Principal />}>
             <Route index element={<Home />} />
-            <Route path="chats" element={<Chat />} />
+            <Route path="chats" element={<Chat />}/>
             <Route path="notificaciones" element={<Notificaction />} />
-            <Route path="perfil" element={<Profile />} />
+            <Route path="perfil/:id" element={<Profile />} />
           </Route>
         </Route>
         <Route path='*' element={<NotFound />} />

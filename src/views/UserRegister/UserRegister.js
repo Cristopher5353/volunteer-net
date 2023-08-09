@@ -18,7 +18,7 @@ export const UserRegister = () => {
         e.preventDefault();
 
         try {
-            let fetchUserRegister = await fetch("http://localhost:8080/api/users", {
+            let fetchUserRegister = await fetch("http://localhost:8080/api/users/save", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

@@ -24,6 +24,19 @@ export const Login = () => {
 
       if (status === 200) {
         localStorage.setItem("token", jsonFetchLogin.data);
+        try {
+          let token = localStorage.getItem("token");
+
+          await fetch("http://localhost:8080/api/users/connect", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            }
+          });
+        } catch (error) {
+          alert("Error, vuelva a intentarlo más tarde" + error);
+        }
         navigate("/principal");
       } else {
         setError({ bool: true, message: jsonFetchLogin.message });
