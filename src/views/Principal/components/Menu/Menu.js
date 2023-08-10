@@ -26,54 +26,58 @@ export const Menu = ({ notificationCount, setNotificationCount, notificationChat
     }
 
     const handleResetNotificationCount = async () => {
-        let token = localStorage.getItem("token");
+        if (notificationCount > 0) {
+            let token = localStorage.getItem("token");
 
-        try {
-            let fetchResetNotificationCount = await fetch("http://localhost:8080/api/resetnotificationcount", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
-            });
+            try {
+                let fetchResetNotificationCount = await fetch("http://localhost:8080/api/resetnotificationcount", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
 
-            let jsonFetchResetNotificationCount = await fetchResetNotificationCount.json();
-            let status = jsonFetchResetNotificationCount.status;
+                let jsonFetchResetNotificationCount = await fetchResetNotificationCount.json();
+                let status = jsonFetchResetNotificationCount.status;
 
-            if (status === 200) {
-                setNotificationCount(0);
-            } else {
-                alert("vuelva a intentarlo más tarde");
+                if (status === 200) {
+                    setNotificationCount(0);
+                } else {
+                    alert("vuelva a intentarlo más tarde");
+                }
+
+            } catch (error) {
+                alert("Error, vuelva a intentarlo más tarde");
             }
-
-        } catch (error) {
-            alert("Error, vuelva a intentarlo más tarde");
         }
     }
 
     const handleResetNotificationChatCount = async () => {
-        let token = localStorage.getItem("token");
+        if (notificationChatCount > 0) {
+            let token = localStorage.getItem("token");
 
-        try {
-            let fetchResetNotificationChatCount = await fetch("http://localhost:8080/api/resetnotificationchatcount", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
-            });
+            try {
+                let fetchResetNotificationChatCount = await fetch("http://localhost:8080/api/resetnotificationchatcount", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
 
-            let jsonFetchResetNotificationChatCount = await fetchResetNotificationChatCount.json();
-            let status = jsonFetchResetNotificationChatCount.status;
+                let jsonFetchResetNotificationChatCount = await fetchResetNotificationChatCount.json();
+                let status = jsonFetchResetNotificationChatCount.status;
 
-            if (status === 200) {
-                setNotificationChatCount(0);
-            } else {
-                alert("vuelva a intentarlo más tarde");
+                if (status === 200) {
+                    setNotificationChatCount(0);
+                } else {
+                    alert("vuelva a intentarlo más tarde");
+                }
+
+            } catch (error) {
+                alert("Error, vuelva a intentarlo más tarde");
             }
-
-        } catch (error) {
-            alert("Error, vuelva a intentarlo más tarde");
         }
     }
 

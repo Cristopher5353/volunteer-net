@@ -208,7 +208,7 @@ export const Chat = () => {
                                         </div>
                                     </div>
                                     {
-                                        (messages.length == 0 ? <Default /> : <Message messages={messages} setMessages={setMessages} currentChatId={currentChatIdRef.current} />)
+                                        (currentChatIdRef.current == 0 ? <Default /> : <Message messages={messages} setMessages={setMessages} currentChatId={currentChatIdRef.current} />)
                                     }
                                 </div>
                             </div>
