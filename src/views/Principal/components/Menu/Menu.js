@@ -9,6 +9,10 @@ export const Menu = ({ notificationCount, setNotificationCount, notificationChat
     const handleClickLogout = async () => {
         let token = localStorage.getItem("token");
 
+        if(window.location.pathname == "/principal/chats") {
+            localStorage.setItem("token_out", localStorage.getItem("token"));
+        }
+
         try {
             await fetch("http://localhost:8080/api/users/disconnect", {
                 method: "POST",

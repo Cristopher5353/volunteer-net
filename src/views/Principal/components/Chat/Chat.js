@@ -40,9 +40,7 @@ export const Chat = () => {
         }
     }
 
-    const disconnectUserFromChat = async (chatIdPrev) => {
-        let token = localStorage.getItem("token");
-
+    const disconnectUserFromChat = async (chatIdPrev, token) => {
         try {
             await fetch(`http://localhost:8080/api/chats/${chatIdPrev}/disconnect`, {
                 method: "POST",
@@ -121,7 +119,7 @@ export const Chat = () => {
 
     const handleClickChat = (chatId) => {
         if (currentChatIdRef != 0) {
-            disconnectUserFromChat(currentChatIdRef.current);
+            disconnectUserFromChat(currentChatIdRef.current, localStorage.getItem("token"));
         }
 
         currentChatIdRef.current = chatId;
@@ -155,7 +153,10 @@ export const Chat = () => {
         });
 
         return () => {
-            disconnectUserFromChat(currentChatIdRef.current);
+            if(localStorage.getItem("token_out") != null && currentChatIdRef.current != 0) {
+                disconnectUserFromChat(currentChatIdRef.current, localStorage.getItem("token_out"));
+                localStorage.removeItem("token_out");
+            }
             stompClient.disconnect();
         }
     }, [])
