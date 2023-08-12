@@ -40,8 +40,8 @@ export const Profile = () => {
 
     const handleSubmitUserFollow = async (e) => {
         e.preventDefault();
-        
-        let url = `http://localhost:8080/api/users/${id}/${user.follower?"unfollow":"follow"}`;
+
+        let url = `http://localhost:8080/api/users/${id}/${user.follower ? "unfollow" : "follow"}`;
 
         let token = localStorage.getItem("token");
 
@@ -71,6 +71,36 @@ export const Profile = () => {
         }
     }
 
+    const handleUserRequestToJoinChat = async (e) => {
+        e.preventDefault();
+
+        let token = localStorage.getItem("token");
+
+        try {
+            let fetchUserRequestToJoinChat = await fetch(`http://localhost:8080/api/users/${id}/join`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            let jsonFetchUserRequestToJoinChat = await fetchUserRequestToJoinChat.json();
+            let status = jsonFetchUserRequestToJoinChat.status;
+
+            if (status === 200) {
+                setUser({ ...user, isMember: 1 });
+            } else {
+                alert("Error, vuelva a intentarlo más tarde");
+            }
+
+        } catch (error) {
+            alert("Error, vuelva a intentarlo más tarde" + error);
+        }
+    }
+
     useEffect(() => {
         getUserById();
     }, [id])
@@ -86,9 +116,21 @@ export const Profile = () => {
                             <p className="text-muted fz-base">{user.description}</p>
                             {
                                 user.id != decodeToken().id &&
-                                <form method='POST' onSubmit={handleSubmitUserFollow}>
+                                <form method='POST' onSubmit={handleSubmitUserFollow} className="mb-2">
                                     <button type="submit" className="btn text-white" style={{ background: "#9066F2" }}>{(user.follower ? "Dejar de Seguir -" : "Seguir +")}</button>
                                 </form>
+                            }
+                            {
+                                (user.id != decodeToken().id && user.isMember === 0) &&
+                                <form method='POST' onSubmit={handleUserRequestToJoinChat} className="mt-2">
+                                    <button type="submit" className="btn text-white" style={{ background: "#9066F2" }}>
+                                        Unirme al grupo +
+                                    </button>
+                                </form>
+                            }
+                            {
+                                (user.id != decodeToken().id) &&
+                                <span className="mt-4">{(user.isMember === 1) ? "¡Solicitud enviada! El grupo te responderá pronto" : (user.isMember === 2) ? "!Ya eres miembro del grupo!" : ""}</span>
                             }
                         </div>
                     </div>
@@ -100,7 +142,7 @@ export const Profile = () => {
                                     <tr>
                                         <td><strong>CORREO:</strong></td>
                                         <td>
-                                            <p className="text-muted mb-0">{user.email}</p>
+                                            <p className="text-muted mb-0 ms-2">{user.email}</p>
                                         </td>
                                     </tr>
                                     <tr>
