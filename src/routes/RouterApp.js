@@ -8,6 +8,7 @@ import { Chat } from "../views/Principal/components/Chat/Chat";
 import { Notificaction } from "../views/Principal/components/Notification/Notification";
 import { Profile } from "../views/Principal/components/Profile/Profile";
 import { NotFound } from "../views/NotFound/NotFound";
+import { Request } from "../views/Principal/components/Request/Request";
 
 const RouterApp = () => {
   return (
@@ -22,6 +23,11 @@ const RouterApp = () => {
             <Route path="chats" element={<Chat />}/>
             <Route path="notificaciones" element={<Notificaction />} />
             <Route path="perfil/:id" element={<Profile />} />
+          </Route>
+        </Route>
+        <Route element={<ProtectedRoute roles={["GrupoVoluntario"]} />}>
+          <Route path="/principal" element={<Principal />}>
+            <Route path="solicitudes" element={<Request />}/>
           </Route>
         </Route>
         <Route path='*' element={<NotFound />} />

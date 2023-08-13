@@ -77,7 +77,7 @@ export const Profile = () => {
         let token = localStorage.getItem("token");
 
         try {
-            let fetchUserRequestToJoinChat = await fetch(`http://localhost:8080/api/users/${id}/join`,
+            let fetchUserRequestToJoinChat = await fetch(`http://localhost:8080/api/users/${id}/chats-members/join`,
                 {
                     method: "POST",
                     headers: {
@@ -115,13 +115,13 @@ export const Profile = () => {
                             <h5 className="text-uppercase mb-4">{user.username}</h5>
                             <p className="text-muted fz-base">{user.description}</p>
                             {
-                                user.id != decodeToken().id &&
+                                user.id !== decodeToken().id &&
                                 <form method='POST' onSubmit={handleSubmitUserFollow} className="mb-2">
                                     <button type="submit" className="btn text-white" style={{ background: "#9066F2" }}>{(user.follower ? "Dejar de Seguir -" : "Seguir +")}</button>
                                 </form>
                             }
                             {
-                                (user.id != decodeToken().id && user.isMember === 0) &&
+                                (user.id !== decodeToken().id && user.isMember === 0) &&
                                 <form method='POST' onSubmit={handleUserRequestToJoinChat} className="mt-2">
                                     <button type="submit" className="btn text-white" style={{ background: "#9066F2" }}>
                                         Unirme al grupo +
@@ -129,7 +129,7 @@ export const Profile = () => {
                                 </form>
                             }
                             {
-                                (user.id != decodeToken().id) &&
+                                (user.id !== decodeToken().id) &&
                                 <span className="mt-4">{(user.isMember === 1) ? "¡Solicitud enviada! El grupo te responderá pronto" : (user.isMember === 2) ? "!Ya eres miembro del grupo!" : ""}</span>
                             }
                         </div>
@@ -148,7 +148,7 @@ export const Profile = () => {
                                     <tr>
                                         <td><strong>SITIO WEB:</strong></td>
                                         <td>
-                                            <p className="text-muted mb-0">{(user.website == null ? "No registrado" : user.website)}</p>
+                                            <p className="text-muted mb-0">{(user.website === null ? "No registrado" : user.website)}</p>
                                         </td>
                                     </tr>
                                     <tr>
@@ -164,7 +164,7 @@ export const Profile = () => {
                     </div>
                 </div>
                 <div className="profile-section-main">
-                    {decodeToken().id == id && <FormPublicationSave confirmResetPublications={true} resetPublications={getUserById} />}
+                    {decodeToken().id === id && <FormPublicationSave confirmResetPublications={true} resetPublications={getUserById} />}
                     {user.publications && user.publications.map(publication => (
                         <Publication publication={publication} key={publication.id} />
                     ))}

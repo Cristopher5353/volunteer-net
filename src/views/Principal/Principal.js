@@ -9,12 +9,12 @@ export const Principal = () => {
     const [notificationCount, setNotificationCount] = useState(0);
     const [notificationChatCount, setNotificationChatCount] = useState(0);
 
-    const getNotificationsCount = async () => {
+    const getNotificationsGeneralCount = async () => {
         let token = localStorage.getItem("token");
 
         try {
             let fetchGetNotificationsCount = await fetch(
-                `http://localhost:8080/api/notificationscount`,
+                `http://localhost:8080/api/notifications-count/general-count`,
                 {
                     method: "GET",
                     headers: {
@@ -43,7 +43,7 @@ export const Principal = () => {
 
         try {
             let fetchGetNotificationsChatCount = await fetch(
-                `http://localhost:8080/api/notificationschatcount`,
+                `http://localhost:8080/api/notifications-count/chat-count`,
                 {
                     method: "GET",
                     headers: {
@@ -71,7 +71,7 @@ export const Principal = () => {
         try {
             let token = localStorage.getItem("token");
   
-            await fetch("http://localhost:8080/api/incrementnotificationchatcount", {
+            await fetch("http://localhost:8080/api/notifications-count/chat-count/increment", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
@@ -84,7 +84,7 @@ export const Principal = () => {
     }
 
     useEffect(() => {
-        getNotificationsCount();
+        getNotificationsGeneralCount();
         getNotificationsChatCount();
 
         const socket = new SockJS('http://localhost:8080/ws');

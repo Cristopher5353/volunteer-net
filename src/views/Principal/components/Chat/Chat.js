@@ -87,7 +87,7 @@ export const Chat = () => {
         let token = localStorage.getItem("token");
 
         try {
-            let fetchResetUnreadCountChat = await fetch("http://localhost:8080/api/resetunreadcountchatnotification", {
+            let fetchResetUnreadCountChatNotification = await fetch("http://localhost:8080/api/chats-notifications/reset-unread-count", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -96,8 +96,8 @@ export const Chat = () => {
                 body: JSON.stringify({ chatId: chatId })
             });
 
-            let jsonFetchResetUnreadCountChat = await fetchResetUnreadCountChat.json();
-            let status = jsonFetchResetUnreadCountChat.status;
+            let jsonFetchResetUnreadCountChatNotification = await fetchResetUnreadCountChatNotification.json();
+            let status = jsonFetchResetUnreadCountChatNotification.status;
 
             if (status === 200) {
                 setChats(prev => {

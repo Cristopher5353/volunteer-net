@@ -9,7 +9,7 @@ export const Menu = ({ notificationCount, setNotificationCount, notificationChat
     const handleClickLogout = async () => {
         let token = localStorage.getItem("token");
 
-        if(window.location.pathname == "/principal/chats") {
+        if(window.location.pathname === "/principal/chats") {
             localStorage.setItem("token_out", localStorage.getItem("token"));
         }
 
@@ -34,7 +34,7 @@ export const Menu = ({ notificationCount, setNotificationCount, notificationChat
             let token = localStorage.getItem("token");
 
             try {
-                let fetchResetNotificationCount = await fetch("http://localhost:8080/api/resetnotificationcount", {
+                let fetchResetNotificationCount = await fetch("http://localhost:8080/api/notifications-count/general-count/reset", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -62,7 +62,7 @@ export const Menu = ({ notificationCount, setNotificationCount, notificationChat
             let token = localStorage.getItem("token");
 
             try {
-                let fetchResetNotificationChatCount = await fetch("http://localhost:8080/api/resetnotificationchatcount", {
+                let fetchResetNotificationChatCount = await fetch("http://localhost:8080/api/notifications-count/chat-count/reset", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -108,6 +108,12 @@ export const Menu = ({ notificationCount, setNotificationCount, notificationChat
                         </span>}
                     </i>
                 </NavLink>
+                {
+                    decodeToken().roles == "GrupoVoluntario" &&
+                    <NavLink to="/principal/solicitudes" className="text-muted">
+                        <i class="fa-solid fa-hand-point-up text-white text-center d-block icon-menu"></i>
+                    </NavLink>
+                }
             </div>
             <div>
                 <NavLink to={`/principal/perfil/${decodeToken().id}`} className="text-muted">
