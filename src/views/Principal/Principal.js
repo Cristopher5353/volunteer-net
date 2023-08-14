@@ -8,6 +8,7 @@ import { Menu } from './components/Menu/Menu';
 export const Principal = () => {
     const [notificationCount, setNotificationCount] = useState(0);
     const [notificationChatCount, setNotificationChatCount] = useState(0);
+    const [requestsCount, setRequestsCount] = useState(0);
 
     const getNotificationsGeneralCount = async () => {
         let token = localStorage.getItem("token");
@@ -67,50 +68,91 @@ export const Principal = () => {
         }
     }
 
+    const getRequestsCountByUser = async () => {
+        let token = localStorage.getItem("token");
+
+        try {
+            let fetchGetRequestsCountByUser = await fetch(
+                `http://localhost:8080/api/chats-members/request-by-user/count`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            let jsonFetchGetRequestsCountByUser = await fetchGetRequestsCountByUser.json();
+            let status = jsonFetchGetRequestsCountByUser.status;
+
+            if (status === 200) {
+                setRequestsCount(jsonFetchGetRequestsCountByUser.data);
+            } else {
+                alert("Error, vuelva a intentarlo más tarde");
+            }
+
+        } catch (error) {
+            alert("Error, vuelva a intentarlo más tarde");
+        }
+    }
+
     const incrementNotificationChatCount = async () => {
         try {
             let token = localStorage.getItem("token");
-  
+
             await fetch("http://localhost:8080/api/notifications-count/chat-count/increment", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-              }
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                }
             });
-          } catch (error) {
+        } catch (error) {
             alert("Error, vuelva a intentarlo más tarde" + error);
-          }
+        }
     }
 
     useEffect(() => {
         getNotificationsGeneralCount();
         getNotificationsChatCount();
 
-        const socket = new SockJS('http://localhost:8080/ws');
-        const socketTwo = new SockJS('http://localhost:8080/ws');
+        if (decodeToken().roles === "GrupoVoluntario") {
+            getRequestsCountByUser();
+        }
 
+        const socket = new SockJS('http://localhost:8080/ws');
         const stompClient = Stomp.over(socket);
-        const stompClientTwo = Stomp.over(socketTwo);
 
         stompClient.connect({}, () => {
             stompClient.subscribe(`/user/${decodeToken().id}/queue/notifications`, () => {
                 setNotificationCount(prev => prev + 1);
             });
-        });
 
-        stompClientTwo.connect({}, () => {
             stompClient.subscribe(`/user/${decodeToken().id}/queue/notifications/chats`, () => {
-                if(window.location.pathname != "/principal/chats") {
+                if (window.location.pathname != "/principal/chats") {
                     setNotificationChatCount(prev => prev + 1);
                     incrementNotificationChatCount();
                 }
             });
+
+            stompClient.subscribe(`/user/${decodeToken().id}/queue/notifications/requests/confirm`, (message) => {
+                if (message.body === "group") {
+                    setRequestsCount(prev => prev - 1);
+                } else if (message.body === "user") {
+                    setNotificationCount(prev => prev + 1);
+                }
+            });
+
+            if(decodeToken().roles === "GrupoVoluntario") {
+                stompClient.subscribe(`/user/${decodeToken().id}/queue/notifications/requests/join`, () => {
+                    setRequestsCount(prev => prev + 1);
+                });
+            }
         });
 
         return () => {
             stompClient.disconnect();
-            stompClientTwo.disconnect();
         }
     }, [])
 
@@ -118,7 +160,12 @@ export const Principal = () => {
         <div>
             <div className="d-flex">
                 <div className="d-flex flex-column justify-content-between" style={{ backgroundColor: '#222', height: "100vh", width: "6vw", position: "fixed" }}>
-                    <Menu notificationCount={notificationCount} setNotificationCount={setNotificationCount} notificationChatCount={notificationChatCount} setNotificationChatCount={setNotificationChatCount} />
+                    <Menu
+                        notificationCount={notificationCount}
+                        setNotificationCount={setNotificationCount}
+                        notificationChatCount={notificationChatCount}
+                        setNotificationChatCount={setNotificationChatCount}
+                        requestsCount={requestsCount} />
                 </div>
                 <div style={{ height: "100vh", padding: 0, width: "95vw", marginLeft: "6vw" }}>
                     <Outlet />

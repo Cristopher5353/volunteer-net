@@ -22,7 +22,6 @@ export const Request = () => {
 
             let jsonFetchGetAllRequestsByUser = await fetchGetAllRequestsByUser.json();
             let status = jsonFetchGetAllRequestsByUser.status;
-            console.log(jsonFetchGetAllRequestsByUser);
 
             if (status === 200) {
                 setRequests(jsonFetchGetAllRequestsByUser.data);
@@ -56,7 +55,7 @@ export const Request = () => {
                     icon: 'success',
                     confirmButtonText: 'Ok'
                 });
-                setRequests(prev => prev.filter(request => request.id != chatMemberId));
+                setRequests(prev => prev.filter(request => request.id !== chatMemberId));
             } else {
                 alert("Error, vuelva a intentarlo más tarde");
             }
@@ -74,7 +73,7 @@ export const Request = () => {
             <h2 className="text-start pt-4 pb-4 text-white">Solicitudes</h2>
             {
                 (requests.length > 0) && requests.map(request => (
-                    <div className="card notification-card notification-invitation">
+                    <div className="card notification-card notification-invitation" key={request.id}>
                         <div className="card-body">
                             <div className="row d-flex">
                                 <div className="col-9">

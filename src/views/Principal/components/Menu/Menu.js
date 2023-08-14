@@ -3,13 +3,13 @@ import "./Menu.css";
 import { NavLink, useNavigate } from 'react-router-dom';
 import { decodeToken } from '../../../../custom/decodeToken';
 
-export const Menu = ({ notificationCount, setNotificationCount, notificationChatCount, setNotificationChatCount }) => {
+export const Menu = ({ notificationCount, setNotificationCount, notificationChatCount, setNotificationChatCount, requestsCount }) => {
     const navigate = useNavigate();
 
     const handleClickLogout = async () => {
         let token = localStorage.getItem("token");
 
-        if(window.location.pathname === "/principal/chats") {
+        if (window.location.pathname === "/principal/chats") {
             localStorage.setItem("token_out", localStorage.getItem("token"));
         }
 
@@ -109,9 +109,13 @@ export const Menu = ({ notificationCount, setNotificationCount, notificationChat
                     </i>
                 </NavLink>
                 {
-                    decodeToken().roles == "GrupoVoluntario" &&
+                    decodeToken().roles === "GrupoVoluntario" &&
                     <NavLink to="/principal/solicitudes" className="text-muted">
-                        <i class="fa-solid fa-hand-point-up text-white text-center d-block icon-menu"></i>
+                        <i class="fa-solid fa-hand-point-up text-white text-center d-block icon-menu position-relative">
+                            {requestsCount > 0 && <span class="position-absolute top-0 translate-middle badge rounded-pill bg-danger" id="notification" style={{ fontSize: "13px", left: "0", marginLeft: "30px" }}>
+                                {requestsCount}+
+                            </span>}
+                        </i>
                     </NavLink>
                 }
             </div>
