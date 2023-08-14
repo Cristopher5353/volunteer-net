@@ -153,9 +153,12 @@ export const Chat = () => {
         });
 
         return () => {
-            if(localStorage.getItem("token_out") != null && currentChatIdRef.current != 0) {
+            if (localStorage.getItem("token_out") != null && currentChatIdRef.current != 0) {
                 disconnectUserFromChat(currentChatIdRef.current, localStorage.getItem("token_out"));
                 localStorage.removeItem("token_out");
+
+            } else if (localStorage.getItem("token") != null) {
+                disconnectUserFromChat(currentChatIdRef.current, localStorage.getItem("token"));
             }
             stompClient.disconnect();
         }
