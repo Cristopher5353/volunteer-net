@@ -3,7 +3,7 @@ import Swal from 'sweetalert2';
 
 const initialPublicationState = { description: "" };
 
-export const FormPublicationSave = ({ confirmResetPublications, resetPublications }) => {
+export const FormPublicationSave = ({ confirmResetPublications, setUser }) => {
     const [publication, setPublication] = useState(initialPublicationState);
     const [images, setImages] = useState([]);
     const [error, setError] = useState({ bool: false, errorMessages: [] });
@@ -40,7 +40,10 @@ export const FormPublicationSave = ({ confirmResetPublications, resetPublication
                 });
 
                 if (confirmResetPublications) {
-                    resetPublications();
+                    setUser(prev => ({
+                        ...prev,
+                        publications: [jsonFetchPublicationRegister.data, ...prev.publications],
+                    }));
                 }
             } else {
                 setError({ ...error, bool: true, errorMessages: jsonFetchPublicationRegister.errors });

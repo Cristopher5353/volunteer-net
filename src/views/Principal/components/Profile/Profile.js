@@ -106,9 +106,9 @@ export const Profile = () => {
     }, [id])
 
     return (
-        <div className="container-fluid pt-3 pb-3" style={{ background: "#9066F2", paddingLeft: "50px", paddingRight: "50px" }}>
+        <div className="container-fluid pt-3 pb-3" style={{ background: "#9066F2", paddingLeft: "40px", paddingRight: "50px" }}>
             <div className="profile-wrapper">
-                <div className="profile-section-user me-4">
+                <div className="profile-section-user me-4 mt-1">
                     <div className="profile-cover-img"><img src="https://bootdey.com/img/Content/flores-amarillas-wallpaper.jpeg" alt="" /></div>
                     <div className="profile-info-brief p-3"><img className="img-fluid user-profile-avatar" src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="" />
                         <div className="text-center">
@@ -164,7 +164,7 @@ export const Profile = () => {
                     </div>
                 </div>
                 <div className="profile-section-main">
-                    {decodeToken().id === id && <FormPublicationSave confirmResetPublications={true} resetPublications={getUserById} />}
+                    {decodeToken().id === Number(id) && <FormPublicationSave confirmResetPublications={true} setUser={setUser} />}
                     {user.publications && user.publications.map(publication => (
                         <Publication publication={publication} key={publication.id} />
                     ))}

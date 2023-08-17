@@ -48,10 +48,10 @@ export const Publication = ({ publication }) => {
                 </p>
                 {
                     publication.images.length > 0 &&
-                    <div className="card-body">
-                        <swiper-container class="mySwiper" pagination="true" pagination-clickable="true" navigation="true" space-between="30"
+                    <div className="card-body" style={{height : "350px", width : "80%", margin : "auto"}}>
+                        <swiper-container class="mySwiper" pagination="true" pagination-clickable="true" navigation="true" space-between="10"
                             loop="true">
-                            {publication.images.map(image => <swiper-slide key={image.id}><img src={image.url} /></swiper-slide>)}
+                            {publication.images.map(image => <swiper-slide key={image.id}><img src={image.url}/></swiper-slide>)}
                         </swiper-container>
                     </div>
                 }
