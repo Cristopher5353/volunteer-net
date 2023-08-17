@@ -121,7 +121,7 @@ export const Profile = () => {
                                 </form>
                             }
                             {
-                                (user.id !== decodeToken().id && user.isMember === 0) &&
+                                (user.id !== decodeToken().id && user.isMember === 0 && user.role == "GrupoVoluntario") &&
                                 <form method='POST' onSubmit={handleUserRequestToJoinChat} className="mt-2">
                                     <button type="submit" className="btn text-white" style={{ background: "#9066F2" }}>
                                         Unirme al grupo +

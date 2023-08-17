@@ -3,12 +3,18 @@ import Swal from 'sweetalert2';
 
 const initialPublicationState = { description: "" };
 
-export const FormPublicationSave = ({confirmResetPublications, resetPublications}) => {
+export const FormPublicationSave = ({ confirmResetPublications, resetPublications }) => {
     const [publication, setPublication] = useState(initialPublicationState);
+    const [images, setImages] = useState([]);
     const [error, setError] = useState({ bool: false, errorMessages: [] });
 
     const handleSubmitForm = async (e) => {
         e.preventDefault();
+
+        const formData = new FormData();
+        formData.append('publicationSaveDto', new Blob([JSON.stringify(publication)], { type: 'application/json' }));
+
+        [...images].forEach(image => formData.append("images", image));
 
         let token = localStorage.getItem("token");
 
@@ -16,10 +22,9 @@ export const FormPublicationSave = ({confirmResetPublications, resetPublications
             let fetchPublicationRegister = await fetch("http://localhost:8080/api/publications", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
                 },
-                body: JSON.stringify(publication)
+                body: formData
             });
 
             let jsonFetchPublicationRegister = await fetchPublicationRegister.json();
@@ -33,8 +38,8 @@ export const FormPublicationSave = ({confirmResetPublications, resetPublications
                     icon: 'success',
                     confirmButtonText: 'Ok'
                 });
-                
-                if(confirmResetPublications) {
+
+                if (confirmResetPublications) {
                     resetPublications();
                 }
             } else {
@@ -47,6 +52,10 @@ export const FormPublicationSave = ({confirmResetPublications, resetPublications
 
     const handleChange = (e) => {
         setPublication({ ...publication, [e.target.name]: e.target.value });
+    }
+
+    const handleImageChange = (e) => {
+        setImages(e.target.files);
     }
 
     return (
@@ -70,8 +79,11 @@ export const FormPublicationSave = ({confirmResetPublications, resetPublications
                         )}
                         <div className="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
                             <div className="form-group">
-                                <textarea className="form-control" id="description" name="description" defaultValue={publication.description} rows="3" placeholder="Que estás pensando?" onChange={handleChange}></textarea>
+                                <textarea className="form-control" id="description" name="description" value={publication.description} rows="3" placeholder="Que estás pensando?" onChange={handleChange}></textarea>
                             </div>
+                        </div>
+                        <div className="mt-2 mb-2">
+                            <input className="form-control" type="file" multiple onChange={handleImageChange} />
                         </div>
                     </div>
                     <div className="btn-toolbar justify-content-between">

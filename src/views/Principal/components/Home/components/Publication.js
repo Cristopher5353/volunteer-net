@@ -2,30 +2,31 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import moment from 'moment/moment';
 import "moment/locale/es";
+import "./Publication.css";
 
 moment.locale("es")
 moment.updateLocale('es', {
-    relativeTime : {
+    relativeTime: {
         future: "in %s",
-        past:   "%s",
-        s  : 'a few seconds',
-        ss : '%d segundos',
-        m:  "1 minuto",
+        past: "%s",
+        s: 'a few seconds',
+        ss: '%d segundos',
+        m: "1 minuto",
         mm: "%d minutos",
-        h:  "1 hora",
+        h: "1 hora",
         hh: "%d horas",
-        d:  "1 día",
+        d: "1 día",
         dd: "%d días",
-        w:  "1 semana",
+        w: "1 semana",
         ww: "%d semanas",
-        M:  "1 mes",
+        M: "1 mes",
         MM: "%d meses",
-        y:  "1 año",
+        y: "1 año",
         yy: "%d años"
     }
 });
 
-export const Publication = ({publication}) => {
+export const Publication = ({ publication }) => {
     return (
         <div className="card gedf-card mb-3 mt-3">
             <div className="card-header">
@@ -45,6 +46,15 @@ export const Publication = ({publication}) => {
                 <p className="card-text">
                     {publication.description}
                 </p>
+                {
+                    publication.images.length > 0 &&
+                    <div className="card-body">
+                        <swiper-container class="mySwiper" pagination="true" pagination-clickable="true" navigation="true" space-between="30"
+                            loop="true">
+                            {publication.images.map(image => <swiper-slide key={image.id}><img src={image.url} /></swiper-slide>)}
+                        </swiper-container>
+                    </div>
+                }
             </div>
             <div className="card-footer">
                 <a href="#" className="card-link"><i className="fa fa-gittip"></i> Like</a>
