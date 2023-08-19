@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 
+const initialMessageState = { message: "" };
+
 export const Message = ({ messages, setMessages, currentChatId }) => {
-    const [message, setMessage] = useState({ message: "" });
+    const [message, setMessage] = useState(initialMessageState);
     const chatContainerRef = useRef(null);
 
     const handleSubmitSendMessage = async (e) => {
@@ -24,6 +26,7 @@ export const Message = ({ messages, setMessages, currentChatId }) => {
 
             if (status === 201) {
                 setMessages((prev) => [...prev, jsonFetchSendMessage.data]);
+                setMessage(initialMessageState);
             } else {
                 alert("Error, vuelva a intentarlo más tarde");
             }
@@ -65,7 +68,7 @@ export const Message = ({ messages, setMessages, currentChatId }) => {
                         alt="avatar 3" style={{ width: '40px', height: '100%' }}
                     />
                     <input type="text" className="form-control form-control-lg" id="exampleFormControlInput2"
-                        placeholder="Type message" onChange={handleChange} name="message" />
+                        placeholder="Type message" onChange={handleChange} name="message" value={message.message} />
                     <a className="ms-1 text-muted" href="#!"><i className="fas fa-paperclip"></i></a>
                     <a className="ms-3 text-muted" href="#!"><i className="fas fa-smile"></i></a>
                     <button style={{ border: "none", background: "#fff", marginLeft: "10px" }} type='submit'><a><i className="fas fa-paper-plane"></i></a></button>

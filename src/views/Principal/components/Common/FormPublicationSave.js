@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Swal from 'sweetalert2';
 
 const initialPublicationState = { description: "" };
 
-export const FormPublicationSave = ({ confirmResetPublications, setUser }) => {
+export const FormPublicationSave = ({ confirmResetPublications, setPublications }) => {
     const [publication, setPublication] = useState(initialPublicationState);
     const [images, setImages] = useState([]);
     const [error, setError] = useState({ bool: false, errorMessages: [] });
+    const fileInputRef = useRef(null);
 
     const handleSubmitForm = async (e) => {
         e.preventDefault();
@@ -33,6 +34,8 @@ export const FormPublicationSave = ({ confirmResetPublications, setUser }) => {
             if (status === 201) {
                 setError({ ...error, bool: false });
                 setPublication(initialPublicationState);
+                fileInputRef.current.value = "";
+                
                 Swal.fire({
                     text: jsonFetchPublicationRegister.message,
                     icon: 'success',
@@ -40,10 +43,7 @@ export const FormPublicationSave = ({ confirmResetPublications, setUser }) => {
                 });
 
                 if (confirmResetPublications) {
-                    setUser(prev => ({
-                        ...prev,
-                        publications: [jsonFetchPublicationRegister.data, ...prev.publications],
-                    }));
+                    setPublications((prev) => [jsonFetchPublicationRegister.data, ...prev]);
                 }
             } else {
                 setError({ ...error, bool: true, errorMessages: jsonFetchPublicationRegister.errors });
@@ -86,7 +86,7 @@ export const FormPublicationSave = ({ confirmResetPublications, setUser }) => {
                             </div>
                         </div>
                         <div className="mt-2 mb-2">
-                            <input className="form-control" type="file" multiple onChange={handleImageChange} />
+                            <input className="form-control" type="file" ref={fileInputRef} multiple onChange={handleImageChange} />
                         </div>
                     </div>
                     <div className="btn-toolbar justify-content-between">

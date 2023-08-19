@@ -8,6 +8,8 @@ import { decodeToken } from '../../../../custom/decodeToken';
 export const Profile = () => {
     const { id } = useParams();
     const [user, setUser] = useState({});
+    const [page, setPage] = useState(0);
+    const [publications, setPublications] = useState([]);
 
     const getUserById = async () => {
         let token = localStorage.getItem("token");
@@ -29,6 +31,35 @@ export const Profile = () => {
 
             if (status === 200) {
                 setUser(jsonFetchGetUserById.data);
+            } else {
+                alert("Error, vuelva a intentarlo más tarde");
+            }
+
+        } catch (error) {
+            alert("Error, vuelva a intentarlo más tarde");
+        }
+    }
+
+    const getPublicationsByUser = async () => {
+        let token = localStorage.getItem("token");
+
+        try {
+            let fetchGetPublicationsByUser = await fetch(
+                `http://localhost:8080/api/users/${id}/publications?page=${page}&size=5`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            let jsonFetchGetPublicationsByUser = await fetchGetPublicationsByUser.json();
+            let status = jsonFetchGetPublicationsByUser.status;
+
+            if (status === 200) {
+                setPublications((prev) => [...prev, ...jsonFetchGetPublicationsByUser.data]);
             } else {
                 alert("Error, vuelva a intentarlo más tarde");
             }
@@ -101,6 +132,24 @@ export const Profile = () => {
         }
     }
 
+    const handleScroll = (e) => {
+        const scrollHeight = e.target.documentElement.scrollHeight;
+        const currentHeight = e.target.documentElement.scrollTop  + window.innerHeight;
+
+        if(currentHeight + 1 >= scrollHeight) {
+            setPage(prev => prev + 1);
+        }
+    }
+
+    useEffect(() => {
+        getPublicationsByUser();
+    }, [page]);
+
+    useEffect(() => {
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, [page]);
+
     useEffect(() => {
         getUserById();
     }, [id])
@@ -164,8 +213,8 @@ export const Profile = () => {
                     </div>
                 </div>
                 <div className="profile-section-main">
-                    {decodeToken().id === Number(id) && <FormPublicationSave confirmResetPublications={true} setUser={setUser} />}
-                    {user.publications && user.publications.map(publication => (
+                    {decodeToken().id === Number(id) && <FormPublicationSave confirmResetPublications={true} setPublications={setPublications} />}
+                    {publications && publications.map(publication => (
                         <Publication publication={publication} key={publication.id} />
                     ))}
                 </div>

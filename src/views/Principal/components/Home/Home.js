@@ -5,13 +5,14 @@ import { FormPublicationSave } from '../Common/FormPublicationSave';
 
 export const Home = () => {
     const [publications, setPublications] = useState([]);
+    const [page, setPage] = useState(0);
 
     const getPublications = async () => {
         let token = localStorage.getItem("token");
 
         try {
             let fetchGetPublications = await fetch(
-                `http://localhost:8080/api/publications`,
+                `http://localhost:8080/api/publications?page=${page}&size=5`,
                 {
                     method: "GET",
                     headers: {
@@ -25,7 +26,7 @@ export const Home = () => {
             let status = jsonFetchGetPublications.status;
 
             if (status === 200) {
-                setPublications(jsonFetchGetPublications.data);
+                setPublications((prev) => [...prev, ...jsonFetchGetPublications.data]);
             } else {
                 alert("Error, vuelva a intentarlo más tarde");
             }
@@ -35,14 +36,28 @@ export const Home = () => {
         }
     }
 
+    const handleScroll = (e) => {
+        const scrollHeight = e.target.documentElement.scrollHeight;
+        const currentHeight = e.target.documentElement.scrollTop  + window.innerHeight;
+
+        if(currentHeight + 1 >= scrollHeight) {
+            setPage(prev => prev + 1);
+        }
+    }
+
     useEffect(() => {
         getPublications();
-    }, [])
+    }, [page]);
+
+    useEffect(() => {
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, [page]);
 
     return (
         <>
-            <div className="container-fluid gedf-wrapper p-3" style={{ background: "#9066F2" }}>
-                <div className="row">
+            <div className="container-fluid gedf-wrapper p-3" style={{ background: "#9066F2", minHeight : "100%" }}>
+                <div className="row me-2">
                     <div className="col-md-3">
                         <div className="card">
                             <div className="card-body">
@@ -65,7 +80,7 @@ export const Home = () => {
                             </ul>
                         </div>
                     </div>
-                    <div className="col-md-6 gedf-main">
+                    <div className="col-md-6 gedf-main" style={{minHeight: "calc(100vh - 2rem)"}}>
                         <FormPublicationSave />
                         {publications.map(publication => (
                             <Publication publication={publication} key={publication.id} />

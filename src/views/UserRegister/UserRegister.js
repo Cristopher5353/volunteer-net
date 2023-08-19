@@ -75,7 +75,7 @@ export const UserRegister = () => {
 
                                             <div className="mb-3">
                                                 <label htmlFor="description" className="form-label">Descripción</label>
-                                                <textarea type="text" defaultValue={user.description} className="form-control" id="description" rows={5} placeholder="¿Por qué quieres unirte a la comunidad?..." name="description" onChange={handleChange}></textarea>
+                                                <textarea type="text" value={user.description} className="form-control" id="description" rows={5} placeholder="¿Por qué quieres unirte a la comunidad?..." name="description" onChange={handleChange}></textarea>
                                             </div>
 
                                             <div className="mb-3">
@@ -85,7 +85,7 @@ export const UserRegister = () => {
 
                                             <div className="mb-3">
                                                 <label htmlFor="role" className="form-label">Rol</label>
-                                                <select className="form-select" defaultValue={user.role} name="role" id="role" onChange={handleChange}>
+                                                <select className="form-select" value={user.role} name="role" id="role" onChange={handleChange}>
                                                     <option value="0">---Selecciona---</option>
                                                     <option value="1">Voluntario</option>
                                                     <option value="2">Grupo Voluntario</option>
