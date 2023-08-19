@@ -54,6 +54,7 @@ export const Message = ({ messages, setMessages, currentChatId }) => {
                             <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp"
                                 alt="avatar 1" style={{ width: '45px', height: '100%' }} />
                             <div>
+                                <p className={`small ms-3 mb-0 rounded-3 text-muted`}>{message.user}</p>
                                 <p className={`small p-2 ms-3 mb-1 rounded-3 ${message.myMessage ? "bg-primary text-white" : ""}`} style={{ backgroundColor: '#f5f6f7' }}>
                                     {message.message}</p>
                                 <p className={`small ms-3 mb-3 rounded-3 text-muted ${message.myMessage ? "" : "float-end"}`}>12:00 PM | Aug 13</p>
