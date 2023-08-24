@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import "./Profile.css";
 import { useParams } from 'react-router-dom';
-import { Publication } from '../Home/components/Publication';
 import { FormPublicationSave } from '../Common/FormPublicationSave';
+import { Publication } from "../Common/Publication";
 import { decodeToken } from '../../../../custom/decodeToken';
 
 export const Profile = () => {
@@ -134,9 +134,9 @@ export const Profile = () => {
 
     const handleScroll = (e) => {
         const scrollHeight = e.target.documentElement.scrollHeight;
-        const currentHeight = e.target.documentElement.scrollTop  + window.innerHeight;
+        const currentHeight = e.target.documentElement.scrollTop + window.innerHeight;
 
-        if(currentHeight + 1 >= scrollHeight) {
+        if (currentHeight + 1 >= scrollHeight) {
             setPage(prev => prev + 1);
         }
     }

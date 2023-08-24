@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import "./Home.css";
-import { Publication } from './components/Publication';
+import { Publication } from "../Common/Publication";
 import { FormPublicationSave } from '../Common/FormPublicationSave';
 
 export const Home = () => {
@@ -38,9 +38,9 @@ export const Home = () => {
 
     const handleScroll = (e) => {
         const scrollHeight = e.target.documentElement.scrollHeight;
-        const currentHeight = e.target.documentElement.scrollTop  + window.innerHeight;
+        const currentHeight = e.target.documentElement.scrollTop + window.innerHeight;
 
-        if(currentHeight + 1 >= scrollHeight) {
+        if (currentHeight + 1 >= scrollHeight) {
             setPage(prev => prev + 1);
         }
     }
@@ -56,7 +56,7 @@ export const Home = () => {
 
     return (
         <>
-            <div className="container-fluid gedf-wrapper p-3" style={{ background: "#9066F2", minHeight : "100%" }}>
+            <div className="container-fluid gedf-wrapper p-3" style={{ background: "#9066F2", minHeight: "100%" }}>
                 <div className="row me-2">
                     <div className="col-md-3">
                         <div className="card">
@@ -80,7 +80,7 @@ export const Home = () => {
                             </ul>
                         </div>
                     </div>
-                    <div className="col-md-6 gedf-main" style={{minHeight: "calc(100vh - 2rem)"}}>
+                    <div className="col-md-6 gedf-main" style={{ minHeight: "calc(100vh - 2rem)" }}>
                         <FormPublicationSave />
                         {publications.map(publication => (
                             <Publication publication={publication} key={publication.id} />

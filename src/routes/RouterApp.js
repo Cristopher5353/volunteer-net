@@ -9,6 +9,7 @@ import { Notificaction } from "../views/Principal/components/Notification/Notifi
 import { Profile } from "../views/Principal/components/Profile/Profile";
 import { NotFound } from "../views/NotFound/NotFound";
 import { Request } from "../views/Principal/components/Request/Request";
+import { PublicationById } from "../views/Principal/components/publication/PublicationById";
 
 const RouterApp = () => {
   return (
@@ -22,6 +23,7 @@ const RouterApp = () => {
             <Route index element={<Home />} />
             <Route path="chats" element={<Chat />}/>
             <Route path="notificaciones" element={<Notificaction />} />
+            <Route path="publicaciones/:id" element={<PublicationById />} />
             <Route path="perfil/:id" element={<Profile />} />
           </Route>
         </Route>
